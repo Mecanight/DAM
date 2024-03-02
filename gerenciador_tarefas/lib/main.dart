@@ -21,5 +21,4 @@ class MyApp extends StatelessWidget {
       home: ListaTarefaPage(),
     );
   }
-  //teste de commit terminal
 }

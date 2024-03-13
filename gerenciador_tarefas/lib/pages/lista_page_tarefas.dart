@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:gerenciador_tarefas/model/tarefa.dart';
+import 'package:gerenciador_tarefas/widgets/conteudo_form_dialog.dart';
 
 class ListaTarefaPage extends StatefulWidget {
   @override
@@ -15,7 +16,9 @@ class _ListaTarefaPageState extends State<ListaTarefaPage> {
       appBar: _criarAppBar(context),
       body: _criarBody(),
       floatingActionButton: FloatingActionButton(
-          onPressed: () {}, child: Icon(Icons.add), tooltip: 'Nova Tarefa'),
+          onPressed: _abrirForm,
+          child: Icon(Icons.add),
+          tooltip: 'Nova Tarefa'),
     );
   }
 
@@ -46,5 +49,25 @@ class _ListaTarefaPageState extends State<ListaTarefaPage> {
         },
         separatorBuilder: (BuildContext context, int index) => const Divider(),
         itemCount: _tarefas.length);
+  }
+
+  void _abrirForm({Tarefa? tarefaAtual, int? indice}) {
+    final key = GlobalKey<ConteudoFormDialogState>();
+    showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: Text(tarefaAtual == null
+                ? 'Nova tarefa'
+                : 'Aterar Tarefa ${tarefaAtual.id}'),
+            content: ConteudoFormDialog(key: key, tarefaAtual: tarefaAtual),
+            actions: [
+              TextButton(
+                  onPressed: () => Navigator.of(context).pop(),
+                  child: Text('Cancelar')),
+              TextButton(onPressed: () {}, child: Text('Salvar'))
+            ],
+          );
+        });
   }
 }

@@ -20,6 +20,10 @@ class ConteudoFormDialogState extends State<ConteudoFormDialog> {
   @override
   void initState() {
     super.initState();
+    if (widget.tarefaAtual != null) {
+      descricaoController.text = widget.tarefaAtual!.descricao;
+      prazoController.text = widget.tarefaAtual!.prazoFormatado;
+    }
   }
 
   @override
@@ -43,7 +47,7 @@ class ConteudoFormDialogState extends State<ConteudoFormDialog> {
             decoration: InputDecoration(
                 labelText: 'Prazo',
                 prefixIcon: IconButton(
-                  onPressed: () {},
+                  onPressed: _mostraCalendario,
                   icon: Icon(Icons.calendar_today),
                 ),
                 suffixIcon: IconButton(
@@ -54,6 +58,21 @@ class ConteudoFormDialogState extends State<ConteudoFormDialog> {
           )
         ],
       ),
+    );
+  }
+
+  void _mostraCalendario() {
+    final dataFormatada = prazoController.text;
+    var data = DateTime.now();
+
+    if (dataFormatada.isNotEmpty) {
+      data = _prazoFormatado.parse(dataFormatada);
+    }
+    showDatePicker(
+      context: context,
+      initialDate: data,
+      firstDate: data.subtract(Duration(days: 1825)),
+      lastDate: data.add(Duration(days: 1825)),
     );
   }
 }

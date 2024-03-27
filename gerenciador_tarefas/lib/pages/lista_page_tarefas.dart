@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:gerenciador_tarefas/pages/filtro_pages.dart';
 import 'package:gerenciador_tarefas/widgets/conteudo_form_dialog.dart';
 
 import '../model/tarefa.dart';
@@ -13,6 +14,7 @@ class _ListaTarefaPageState extends State<ListaTarefaPage> {
   var _ultimoId = 0;
 
   static const ACAO_EDITAR = 'editar';
+  static const ACAO_EXCLUIR = 'excluir';
 
   @override
   Widget build(BuildContext context) {
@@ -34,7 +36,7 @@ class _ListaTarefaPageState extends State<ListaTarefaPage> {
       centerTitle: false,
       actions: [
         IconButton(
-          onPressed: () {},
+          onPressed: _abrirFiltro,
           icon: Icon(Icons.filter_list),
         ) //IconButton
       ],
@@ -65,6 +67,8 @@ class _ListaTarefaPageState extends State<ListaTarefaPage> {
           onSelected: (String valorSelecionado) {
             if (valorSelecionado == ACAO_EDITAR) {
               _abrirForm(tarefaAtual: tarefa, indice: index);
+            } else {
+              // _excluir(index);
             }
           },
         );
@@ -74,9 +78,16 @@ class _ListaTarefaPageState extends State<ListaTarefaPage> {
     );
   }
 
+  void _abrirFiltro() {
+    final navigator = Navigator.of(context);
+    navigator.pushNamed(FiltroPage.ROUTE_NAME).then((alterouValor) {
+      if (alterouValor == true) {}
+    });
+  }
+
   List<PopupMenuEntry<String>> criarItensMenuPopUp() {
     return [
-      PopupMenuItem(
+      const PopupMenuItem(
           value: ACAO_EDITAR,
           child: Row(
             children: [
@@ -86,8 +97,57 @@ class _ListaTarefaPageState extends State<ListaTarefaPage> {
                 child: Text('Editar'),
               )
             ],
+          )),
+      const PopupMenuItem(
+          value: ACAO_EXCLUIR,
+          child: Row(
+            children: [
+              Icon(Icons.delete, color: Colors.red),
+              Padding(
+                padding: EdgeInsets.only(left: 10),
+                child: Text('Excluir'),
+              )
+            ],
           ))
     ];
+  }
+
+  Future _excluir(int indice) {
+    return showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: const Row(
+              children: [
+                Icon(
+                  Icons.warning,
+                  color: Colors.red,
+                ),
+                Padding(
+                  padding: EdgeInsets.only(left: 10),
+                  child: Text(
+                    'Atenção',
+                    style: TextStyle(color: Colors.red),
+                  ),
+                )
+              ],
+            ),
+            content: Text('Esse registro será deletado definitivamente'),
+            actions: [
+              TextButton(
+                  onPressed: () => Navigator.of(context).pop(),
+                  child: Text('Cancelar')),
+              TextButton(
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                    setState(() {
+                      _tarefas.remove(indice);
+                    });
+                  },
+                  child: Text('Ok'))
+            ],
+          );
+        });
   }
 
   void _abrirForm({Tarefa? tarefaAtual, int? indice}) {

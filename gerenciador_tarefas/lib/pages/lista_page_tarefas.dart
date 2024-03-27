@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:gerenciador_tarefas/pages/filtro_pages.dart';
+import 'package:gerenciador_tarefas/model/tarefa.dart';
+import 'package:gerenciador_tarefas/pages/filtro_page.dart';
 import 'package:gerenciador_tarefas/widgets/conteudo_form_dialog.dart';
-
-import '../model/tarefa.dart';
 
 class ListaTarefaPage extends StatefulWidget {
   @override
@@ -37,17 +36,17 @@ class _ListaTarefaPageState extends State<ListaTarefaPage> {
       actions: [
         IconButton(
           onPressed: _abrirFiltro,
-          icon: Icon(Icons.filter_list),
-        ) //IconButton
+          icon: const Icon(Icons.filter_list),
+        )
       ],
-    ); //Appbar
+    );
   }
 
   Widget _criarBody() {
     if (_tarefas.isEmpty) {
       return const Center(
         child: Text(
-          'Tudo certo por aqui!',
+          'Tudo certo por aqui!!!',
           style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
         ),
       );
@@ -68,7 +67,7 @@ class _ListaTarefaPageState extends State<ListaTarefaPage> {
             if (valorSelecionado == ACAO_EDITAR) {
               _abrirForm(tarefaAtual: tarefa, indice: index);
             } else {
-              // _excluir(index);
+              _excluir(index);
             }
           },
         );
@@ -132,19 +131,19 @@ class _ListaTarefaPageState extends State<ListaTarefaPage> {
                 )
               ],
             ),
-            content: Text('Esse registro será deletado definitivamente'),
+            content: const Text('Esse registro será deletado definitivamente!'),
             actions: [
               TextButton(
                   onPressed: () => Navigator.of(context).pop(),
-                  child: Text('Cancelar')),
+                  child: const Text('Cancelar')),
               TextButton(
                   onPressed: () {
                     Navigator.of(context).pop();
                     setState(() {
-                      _tarefas.remove(indice);
+                      _tarefas.removeAt(indice);
                     });
                   },
-                  child: Text('Ok'))
+                  child: Text('Ok')),
             ],
           );
         });
@@ -158,12 +157,13 @@ class _ListaTarefaPageState extends State<ListaTarefaPage> {
           return AlertDialog(
             title: Text(tarefaAtual == null
                 ? 'Nova tarefa'
-                : 'Alterar Tarefa ${tarefaAtual.id}'), // Text
+                : 'Alterar Tarefa ${tarefaAtual.id}'),
             content: ConteudoFormDialog(key: key, tarefaAtual: tarefaAtual),
             actions: [
               TextButton(
-                  onPressed: () => Navigator.of(context).pop(),
-                  child: Text('Cancelar')),
+                onPressed: () => Navigator.of(context).pop(),
+                child: Text('Cancelar'),
+              ),
               TextButton(
                 onPressed: () {
                   if (key.currentState!.dadosValidados() &&

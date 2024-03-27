@@ -1,5 +1,7 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:gerenciador_tarefas/model/tarefa.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class FiltroPage extends StatefulWidget {
   static const ROUTE_NAME = '/filtro';
@@ -20,23 +22,24 @@ class _FiltroPageState extends State<FiltroPage> {
   };
 
   late final SharedPreferences prefs;
-  final _descricaoControler = TextEditingController();
+  final _descricaoController = TextEditingController();
   String _campoOrdenacao = Tarefa.campo_id;
-  bool _usarOrdamDecrescente = false;
+  bool _usarOrdemDecrescente = false;
   bool _alterouValores = false;
 
   @override
   Widget build(BuildContext context) {
     return WillPopScope(
-        child: Scaffold(
-          appBar: AppBar(
+      onWillPop: null,
+      child: Scaffold(
+        appBar: AppBar(
             centerTitle: false,
             backgroundColor: Theme.of(context).colorScheme.primaryContainer,
-            title: Text('Filtro e Ordenação'),
-          ),
-          body: _criarBody(),
-        ),
-        onWillPop: null);
+            title: const Text('Filtro e Ordenação')
+            ),
+        body: _criarBody(),
+      ),
+    );
   }
 
   Widget _criarBody() {
@@ -51,7 +54,7 @@ class _FiltroPageState extends State<FiltroPage> {
             children: [
               Radio(
                 value: campo,
-                groupValue: camposParaOrdenacao,
+                groupValue: _campoOrdenacao,
                 onChanged: _onCampoOrdenacaoChanged,
               ),
               Text(camposParaOrdenacao[campo] ?? ''),
@@ -61,7 +64,7 @@ class _FiltroPageState extends State<FiltroPage> {
         Row(
           children: [
             Checkbox(
-              value: _usarOrdamDecrescente,
+              value: _usarOrdemDecrescente,
               onChanged: null,
             ),
             Text('Usar ordem decrescente')
@@ -71,7 +74,7 @@ class _FiltroPageState extends State<FiltroPage> {
         const Padding(
           padding: EdgeInsets.symmetric(horizontal: 10),
           child: TextField(
-            decoration: InputDecoration(labelText: 'a descrição começa com'),
+            decoration: InputDecoration(labelText: 'A descrição começa com:'),
           ),
         ),
       ],

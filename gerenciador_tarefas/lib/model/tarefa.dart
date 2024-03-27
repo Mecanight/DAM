@@ -15,6 +15,6 @@ class Tarefa {
     if (prazo == null) {
       return '';
     }
-    return DateFormat('dd/MM/yyy').format(prazo!);
+    return DateFormat('dd/MM/yyyy').format(prazo!);
   }
 }

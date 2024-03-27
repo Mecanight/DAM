@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:gerenciador_tarefas/pages/filtro_pages.dart';
+import 'package:gerenciador_tarefas/pages/filtro_page.dart';
 import 'package:gerenciador_tarefas/pages/lista_page_tarefas.dart';
 
 void main() {
@@ -14,8 +14,8 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: 'Gerenciador Tarefas',
       theme: ThemeData(
+        primarySwatch: Colors.red,
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.blue),
-        primaryColor: Colors.lightBlue,
         useMaterial3: true,
       ),
       home: ListaTarefaPage(),

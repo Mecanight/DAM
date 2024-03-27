@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:atividade_cards_color/page/home_page.dart';
 
 void main() {
   runApp(const MyApp());

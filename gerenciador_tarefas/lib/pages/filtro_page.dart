@@ -28,15 +28,32 @@ class _FiltroPageState extends State<FiltroPage> {
   bool _alterouValores = false;
 
   @override
+  void initState() {
+    super.initState();
+    _carregarSharedPreferences();
+  }
+
+  void _carregarSharedPreferences() async {
+    prefs = await SharedPreferences.getInstance();
+    setState(() {
+      _campoOrdenacao =
+          prefs.getString(FiltroPage.CHAVE_CAMPO_ORDENACAO) ?? Tarefa.campo_id;
+      _usarOrdemDecrescente =
+          prefs.getBool(FiltroPage.CHAVE_ORDENAR_DECRESCENTE) ?? false;
+      _descricaoController.text =
+          prefs.getString(FiltroPage.CHAVE_FILTRO_DERCRICAO) ?? '';
+    });
+  }
+
+  @override
   Widget build(BuildContext context) {
     return WillPopScope(
-      onWillPop: null,
+      onWillPop: _onVoltarClick,
       child: Scaffold(
         appBar: AppBar(
             centerTitle: false,
             backgroundColor: Theme.of(context).colorScheme.primaryContainer,
-            title: const Text('Filtro e Ordenação')
-            ),
+            title: const Text('Filtro e Ordenação')),
         body: _criarBody(),
       ),
     );
@@ -60,25 +77,33 @@ class _FiltroPageState extends State<FiltroPage> {
               Text(camposParaOrdenacao[campo] ?? ''),
             ],
           ),
-        Divider(),
+        const Divider(),
         Row(
           children: [
             Checkbox(
               value: _usarOrdemDecrescente,
-              onChanged: null,
+              onChanged: _onUsarOrdemDecrescenteChange,
             ),
             Text('Usar ordem decrescente')
           ],
         ),
-        Divider(),
-        const Padding(
-          padding: EdgeInsets.symmetric(horizontal: 10),
+        const Divider(),
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 10),
           child: TextField(
-            decoration: InputDecoration(labelText: 'A descrição começa com:'),
+            decoration:
+                const InputDecoration(labelText: 'A descrição começa com:'),
+            controller: _descricaoController,
+            onChanged: _onFiltroDescricaoChange,
           ),
         ),
       ],
     );
+  }
+
+  Future<bool> _onVoltarClick() async {
+    Navigator.of(context).pop(_alterouValores);
+    return true;
   }
 
   void _onCampoOrdenacaoChanged(String? valor) {
@@ -87,5 +112,18 @@ class _FiltroPageState extends State<FiltroPage> {
     setState(() {
       _campoOrdenacao = valor ?? '';
     });
+  }
+
+  void _onUsarOrdemDecrescenteChange(bool? valor) {
+    prefs.setBool(FiltroPage.CHAVE_ORDENAR_DECRESCENTE, valor == true);
+    _alterouValores = true;
+    setState(() {
+      _usarOrdemDecrescente = valor == true;
+    });
+  }
+
+  void _onFiltroDescricaoChange(String? valor) {
+    prefs.setString(FiltroPage.CHAVE_FILTRO_DERCRICAO, valor ?? '');
+    _alterouValores = true;
   }
 }

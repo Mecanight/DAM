@@ -7,7 +7,7 @@ class FiltroPage extends StatefulWidget {
   static const ROUTE_NAME = '/filtro';
   static const CHAVE_CAMPO_ORDENACAO = 'campoOrdenacao';
   static const CHAVE_ORDENAR_DECRESCENTE = 'usarOrdemDecrescente';
-  static const CHAVE_FILTRO_DERCRICAO = 'filtroDescricao';
+  static const CHAVE_FILTRO_DESCRICAO = 'filtroDescricao';
 
   @override
   _FiltroPageState createState() => _FiltroPageState();
@@ -41,7 +41,7 @@ class _FiltroPageState extends State<FiltroPage> {
       _usarOrdemDecrescente =
           prefs.getBool(FiltroPage.CHAVE_ORDENAR_DECRESCENTE) ?? false;
       _descricaoController.text =
-          prefs.getString(FiltroPage.CHAVE_FILTRO_DERCRICAO) ?? '';
+          prefs.getString(FiltroPage.CHAVE_FILTRO_DESCRICAO) ?? '';
     });
   }
 
@@ -106,6 +106,11 @@ class _FiltroPageState extends State<FiltroPage> {
     return true;
   }
 
+  void _onFiltroDescricaoChange(String? valor) {
+    prefs.setString(FiltroPage.CHAVE_FILTRO_DESCRICAO, valor ?? '');
+    _alterouValores = true;
+  }
+
   void _onCampoOrdenacaoChanged(String? valor) {
     prefs.setString(FiltroPage.CHAVE_CAMPO_ORDENACAO, valor ?? '');
     _alterouValores = true;
@@ -120,10 +125,5 @@ class _FiltroPageState extends State<FiltroPage> {
     setState(() {
       _usarOrdemDecrescente = valor == true;
     });
-  }
-
-  void _onFiltroDescricaoChange(String? valor) {
-    prefs.setString(FiltroPage.CHAVE_FILTRO_DERCRICAO, valor ?? '');
-    _alterouValores = true;
   }
 }

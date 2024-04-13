@@ -184,7 +184,9 @@ class _ListaTarefaPageState extends State<ListaTarefaPage> {
                     setState(() {
                       final novaTarefa = key.currentState!.novaTarefa;
                       _dao.salvar(novaTarefa).then((success) {
-                        _atualizarLista();
+                        if (success) {
+                          _atualizarLista();
+                        }
                       });
                     });
                     Navigator.of(context).pop();

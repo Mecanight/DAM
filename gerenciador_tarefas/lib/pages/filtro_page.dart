@@ -84,7 +84,7 @@ class _FiltroPageState extends State<FiltroPage> {
               value: _usarOrdemDecrescente,
               onChanged: _onUsarOrdemDecrescenteChange,
             ),
-            Text('Usar ordem decrescente')
+            const Text('Usar ordem decrescente')
           ],
         ),
         const Divider(),

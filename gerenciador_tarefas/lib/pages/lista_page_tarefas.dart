@@ -15,7 +15,7 @@ class _ListaTarefaPageState extends State<ListaTarefaPage> {
 
   static const ACAO_EDITAR = 'editar';
   static const ACAO_EXCLUIR = 'excluir';
-
+  @override
   void initstate() {
     super.initState();
     _atualizarLista();

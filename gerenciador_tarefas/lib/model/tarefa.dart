@@ -12,6 +12,7 @@ class Tarefa {
 
   Tarefa({required this.id, required this.descricao, this.prazo});
 
+  // utilizado para formatar a data
   String get prazoFormatado {
     if (prazo == null) {
       return '';
@@ -19,13 +20,14 @@ class Tarefa {
     return DateFormat('dd/MM/yyyy').format(prazo!);
   }
 
+  // utilizado para o banco
   Map<String, dynamic> toMap() => <String, dynamic>{
         campo_id: id,
         campo_descricao: descricao,
         campo_prazo:
             prazo == null ? null : DateFormat("yyyy-MM-dd").format(prazo!),
       };
-
+  // utilizado para o branco
   factory Tarefa.fromMap(Map<String, dynamic> map) => Tarefa(
         id: map[campo_id] is int ? map[campo_id] : null,
         descricao: map[campo_descricao] is String ? map[campo_descricao] : '',

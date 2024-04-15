@@ -1,4 +1,4 @@
-package br.edu.materdei.atividade_cards_color.atividade_cards_color
+package br.edu.materdei.gerenciador_tarefas
 
 import io.flutter.embedding.android.FlutterActivity
 

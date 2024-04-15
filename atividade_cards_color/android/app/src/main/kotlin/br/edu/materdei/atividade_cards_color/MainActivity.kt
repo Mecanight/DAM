@@ -1,4 +1,4 @@
-package br.edu.materdei.projeto_avaliacao.projeto_avaliacao
+package br.edu.materdei.atividade_cards_color
 
 import io.flutter.embedding.android.FlutterActivity
 

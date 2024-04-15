@@ -1,4 +1,4 @@
-package br.edu.materdei.gerenciador_tarefas.gerenciador_tarefas
+package br.edu.materdei.projeto_avaliacao
 
 import io.flutter.embedding.android.FlutterActivity
 

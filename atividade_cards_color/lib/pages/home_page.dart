@@ -1,6 +1,4 @@
 import 'dart:math';
-
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class HomePage extends StatefulWidget {
@@ -37,11 +35,12 @@ class _HomePageState extends State<HomePage> {
             children: [
               for (int j = 0; j < (Random().nextInt(3) + 3); j++)
                 Expanded(
-                    child: CustomCard(
-                  label: 'Linha ${i + 1} | Coluna ${j + 1}',
-                ))
+                  child: CustomCard(
+                    label: 'Linha ${i + 1} | Coluna ${j + 1}',
+                  ),
+                ),
             ],
-          )
+          ),
       ],
     );
   }

@@ -1,4 +1,4 @@
-import 'package:flutter/cupertino.dart';
+
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
@@ -7,7 +7,7 @@ import '../model/tarefa.dart';
 class ConteudoFormDialog extends StatefulWidget {
   final Tarefa? tarefaAtual;
 
-  ConteudoFormDialog({Key? key, this.tarefaAtual}) : super(key: key);
+  const ConteudoFormDialog({Key? key, this.tarefaAtual}) : super(key: key);
 
   @override
   ConteudoFormDialogState createState() => ConteudoFormDialogState();
@@ -37,7 +37,7 @@ class ConteudoFormDialogState extends State<ConteudoFormDialog> {
           children: [
             TextFormField(
               controller: descricaoController,
-              decoration: InputDecoration(labelText: 'Descrição'),
+              decoration: const InputDecoration(labelText: 'Descrição'),
               validator: (String? valor) {
                 if (valor == null || valor.isEmpty) {
                   return 'Informe a descrição!';
@@ -50,11 +50,11 @@ class ConteudoFormDialogState extends State<ConteudoFormDialog> {
               decoration: InputDecoration(
                 labelText: 'Prazo',
                 prefixIcon: IconButton(
-                  icon: Icon(Icons.calendar_today),
+                  icon: const Icon(Icons.calendar_today),
                   onPressed: _mostraCalendario,
                 ),
                 suffixIcon: IconButton(
-                  icon: Icon(Icons.clear),
+                  icon: const Icon(Icons.clear),
                   onPressed: () => prazoController.clear(),
                 ),
               ),
@@ -74,8 +74,8 @@ class ConteudoFormDialogState extends State<ConteudoFormDialog> {
     showDatePicker(
       context: context,
       initialDate: data,
-      firstDate: data.subtract(Duration(days: 5 * 365)),
-      lastDate: data.add(Duration(days: 5 * 365)),
+      firstDate: data.subtract(const Duration(days: 5 * 365)),
+      lastDate: data.add(const Duration(days: 5 * 365)),
     ).then((DateTime? dataSelecionada) {
       if (dataSelecionada != null) {
         setState(() {
@@ -88,7 +88,7 @@ class ConteudoFormDialogState extends State<ConteudoFormDialog> {
   bool dadosValidados() => formKey.currentState?.validate() == true;
 
   Tarefa get novaTarefa => Tarefa(
-        id: widget.tarefaAtual?.id ?? 0,
+        id: widget.tarefaAtual?.id ?? null,
         descricao: descricaoController.text,
         prazo: prazoController.text.isEmpty
             ? null

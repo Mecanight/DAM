@@ -16,7 +16,7 @@ class _ListaTarefaPageState extends State<ListaTarefaPage> {
   static const ACAO_EDITAR = 'editar';
   static const ACAO_EXCLUIR = 'excluir';
   @override
-  void initstate() {
+  void initState() {
     super.initState();
     _atualizarLista();
   }
@@ -28,8 +28,8 @@ class _ListaTarefaPageState extends State<ListaTarefaPage> {
       body: _criarBody(),
       floatingActionButton: FloatingActionButton(
         onPressed: _abrirForm,
-        child: Icon(Icons.add),
         tooltip: 'Nova Tarefa',
+        child: const Icon(Icons.add),
       ),
     );
   }
@@ -37,7 +37,7 @@ class _ListaTarefaPageState extends State<ListaTarefaPage> {
   AppBar _criarAppBar(BuildContext context) {
     return AppBar(
       backgroundColor: Theme.of(context).colorScheme.primaryContainer,
-      title: Text('Tarefas'),
+      title: const Text('Tarefas'),
       centerTitle: false,
       actions: [
         IconButton(
@@ -156,7 +156,7 @@ class _ListaTarefaPageState extends State<ListaTarefaPage> {
                       }
                     });
                   },
-                  child: Text('Ok')),
+                  child: const Text('Ok')),
             ],
           );
         });
@@ -175,7 +175,7 @@ class _ListaTarefaPageState extends State<ListaTarefaPage> {
             actions: [
               TextButton(
                 onPressed: () => Navigator.of(context).pop(),
-                child: Text('Cancelar'),
+                child: const Text('Cancelar'),
               ),
               TextButton(
                 onPressed: () {
@@ -192,7 +192,7 @@ class _ListaTarefaPageState extends State<ListaTarefaPage> {
                     Navigator.of(context).pop();
                   }
                 },
-                child: Text('Salvar'),
+                child: const Text('Salvar'),
               )
             ],
           );

@@ -32,7 +32,7 @@ class _ListaViagemPageState extends State<ListaViagemPage> {
       body: _criarBody(),
       floatingActionButton: FloatingActionButton(
         onPressed: _abrirForm,
-        child: Icon(Icons.add),
+        child: Icon(Icons.add_location_alt_sharp),
         tooltip: 'Nova Viagem',
       ),
     );
@@ -40,17 +40,24 @@ class _ListaViagemPageState extends State<ListaViagemPage> {
 
   AppBar _criarAppBar(BuildContext context) {
     return AppBar(
-      backgroundColor: Theme.of(context).colorScheme.primaryContainer,
+      backgroundColor: Theme.of(context).colorScheme.surfaceTint,
       title: Text('Viagens'),
       centerTitle: true,
       actions: [
         IconButton(
           onPressed: _abrirFiltro,
           icon: const Icon(
-            Icons.filter_list,
+            Icons.filter_list_alt,
           ),
           // alignment: Alignment.topLeft,
-        )
+        ),
+        IconButton(
+          onPressed: () {}, //To Do implementar acesso ao mapa pelo botão
+          icon: const Icon(
+            Icons.map_sharp,
+          ),
+          // alignment: Alignment.topLeft,
+        ),
       ],
     );
   }
@@ -77,7 +84,8 @@ class _ListaViagemPageState extends State<ListaViagemPage> {
         final viagem = _viagens[index];
         return Container(
           decoration: BoxDecoration(
-            color: Color.fromARGB(255, 162, 240, 168), // Cor de fundo do container
+            color:
+                Color.fromRGBO(189, 233, 222, 1), // Cor de fundo do container
             borderRadius: BorderRadius.circular(20), // Bordas arredondadas
           ),
           child: PopupMenuButton<String>(

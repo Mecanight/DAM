@@ -1,4 +1,4 @@
-
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
@@ -7,7 +7,7 @@ import '../model/tarefa.dart';
 class ConteudoFormDialog extends StatefulWidget {
   final Tarefa? tarefaAtual;
 
-  const ConteudoFormDialog({Key? key, this.tarefaAtual}) : super(key: key);
+  ConteudoFormDialog({Key? key, this.tarefaAtual}) : super(key: key);
 
   @override
   ConteudoFormDialogState createState() => ConteudoFormDialogState();
@@ -37,7 +37,7 @@ class ConteudoFormDialogState extends State<ConteudoFormDialog> {
           children: [
             TextFormField(
               controller: descricaoController,
-              decoration: const InputDecoration(labelText: 'Descrição'),
+              decoration: InputDecoration(labelText: 'Descrição'),
               validator: (String? valor) {
                 if (valor == null || valor.isEmpty) {
                   return 'Informe a descrição!';
@@ -50,11 +50,11 @@ class ConteudoFormDialogState extends State<ConteudoFormDialog> {
               decoration: InputDecoration(
                 labelText: 'Prazo',
                 prefixIcon: IconButton(
-                  icon: const Icon(Icons.calendar_today),
+                  icon: Icon(Icons.calendar_today),
                   onPressed: _mostraCalendario,
                 ),
                 suffixIcon: IconButton(
-                  icon: const Icon(Icons.clear),
+                  icon: Icon(Icons.clear),
                   onPressed: () => prazoController.clear(),
                 ),
               ),
@@ -74,8 +74,8 @@ class ConteudoFormDialogState extends State<ConteudoFormDialog> {
     showDatePicker(
       context: context,
       initialDate: data,
-      firstDate: data.subtract(const Duration(days: 5 * 365)),
-      lastDate: data.add(const Duration(days: 5 * 365)),
+      firstDate: data.subtract(Duration(days: 5 * 365)),
+      lastDate: data.add(Duration(days: 5 * 365)),
     ).then((DateTime? dataSelecionada) {
       if (dataSelecionada != null) {
         setState(() {

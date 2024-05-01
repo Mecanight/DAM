@@ -5,12 +5,18 @@ class Tarefa {
   static const campo_id = '_id';
   static const campo_descricao = 'descricao';
   static const campo_prazo = 'prazo';
+  static const campo_finalizado = 'finalizada';
 
   int? id;
   String descricao;
   DateTime? prazo;
+  bool finalizada;
 
-  Tarefa({required this.id, required this.descricao, this.prazo});
+  Tarefa(
+      {required this.id,
+      required this.descricao,
+      this.prazo,
+      this.finalizada = false});
 
   // utilizado para formatar a data
   String get prazoFormatado {
@@ -26,6 +32,7 @@ class Tarefa {
         campo_descricao: descricao,
         campo_prazo:
             prazo == null ? null : DateFormat("yyyy-MM-dd").format(prazo!),
+        campo_finalizado: finalizada ? 1 : 0,
       };
   // utilizado para o branco
   factory Tarefa.fromMap(Map<String, dynamic> map) => Tarefa(
@@ -34,5 +41,6 @@ class Tarefa {
         prazo: map[campo_prazo] is String
             ? DateFormat("yyyy-MM-dd").parse(map[campo_prazo])
             : null,
+        finalizada: map[campo_finalizado] == 1,
       );
 }

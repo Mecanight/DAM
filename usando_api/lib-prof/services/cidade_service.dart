@@ -1,19 +1,19 @@
 import 'dart:convert';
 import 'dart:io';
+import '../model/cidade.dart';
 import 'package:http/http.dart';
-import 'package:usando_api/model/cidade.dart';
 
 class CidadeService {
   static const _baseUrl = 'http://cloud.colegiomaterdei.com.br:8090/cidades';
 
-  Future<List<Cidade>> findCidade() async {
+  Future<List<Cidade>> findCidades() async {
     final uri = Uri.parse(_baseUrl);
     final Response response = await get(uri);
     if (response.statusCode != 200 || response.body.isEmpty) {
       throw Exception();
     }
-    final decodeBody = json.decode(response.body) as List;
-    return decodeBody
+    final decodedBody = json.decode(response.body) as List;
+    return decodedBody
         .map((e) => Cidade.fromJson(Map<String, dynamic>.from(e)))
         .toList();
   }
@@ -34,7 +34,6 @@ class CidadeService {
   Future<void> deleteCidade(Cidade cidade) async {
     final uri = Uri.parse('$_baseUrl/${cidade.codigo}');
     final Response response = await delete(uri);
-
     if (response.statusCode != 200) {
       throw Exception();
     }

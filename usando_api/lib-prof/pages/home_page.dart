@@ -1,6 +1,7 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:usando_api/pages/cidades_fragment.dart';
-import 'package:usando_api/pages/consulta_cep_fragment.dart';
+import 'package:usando_api_md/pages/cidades_fragment.dart';
+import 'package:usando_api_md/pages/consulta_cep_fragmet.dart';
 
 class HomePage extends StatefulWidget {
   @override
@@ -16,7 +17,7 @@ class _HomePageState extends State<HomePage> {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-            _fragment == 0 ? ConsultaCepFragment.title : CidadesFragment.title),
+            _fragment == 0 ? ConsultaCepFragmet.title : CidadesFragment.title),
       ),
       body: _buildBody(),
       bottomNavigationBar: BottomNavigationBar(
@@ -24,7 +25,7 @@ class _HomePageState extends State<HomePage> {
         items: const [
           BottomNavigationBarItem(
             icon: Icon(Icons.search),
-            label: ConsultaCepFragment.title,
+            label: ConsultaCepFragmet.title,
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.list),
@@ -44,7 +45,7 @@ class _HomePageState extends State<HomePage> {
   }
 
   Widget _buildBody() => _fragment == 0
-      ? ConsultaCepFragment()
+      ? ConsultaCepFragmet()
       : CidadesFragment(key: _listaCidadesKey);
 
   Widget? _buildFloatingActionButton() {
@@ -52,9 +53,9 @@ class _HomePageState extends State<HomePage> {
       return null;
     }
     return FloatingActionButton(
+      child: const Icon(Icons.add),
       tooltip: 'Cadastrar Cidade',
       onPressed: () => _listaCidadesKey.currentState?.abrirForm(),
-      child: const Icon(Icons.add),
     );
   }
 }

@@ -1,7 +1,8 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
-import 'package:usando_api/model/cep.dart';
-import 'package:usando_api/services/cep_service.dart';
+import 'package:usando_api_md/model/cep.dart';
+import 'package:usando_api_md/services/cep_service.dart';
 
 class ConsultaCepFragment extends StatefulWidget {
   static const title = 'Buscar CEP';
@@ -15,7 +16,7 @@ class _ConsultaCepFragmentState extends State<ConsultaCepFragment> {
   final _controller = TextEditingController();
   final _formKey = GlobalKey<FormState>();
   var _loading = false;
-  final _cepFormater = MaskTextInputFormatter(
+  final _cepFormatter = MaskTextInputFormatter(
       mask: '#####-###', filter: {'#': RegExp(r'[0-9]')});
 
   Cep? _cep;
@@ -23,7 +24,7 @@ class _ConsultaCepFragmentState extends State<ConsultaCepFragment> {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.all(10),
+      padding: EdgeInsets.all(10),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -43,10 +44,10 @@ class _ConsultaCepFragmentState extends State<ConsultaCepFragment> {
                         icon: Icon(Icons.search),
                       ),
               ),
-              inputFormatters: [_cepFormater],
+              inputFormatters: [_cepFormatter],
               validator: (String? value) {
-                if (value == null || value.isEmpty || !_cepFormater.isFill()) {
-                  return 'Informe um CEP válido';
+                if (value == null || value.isEmpty || !_cepFormatter.isFill()) {
+                  return 'Informe um cep válido';
                 }
                 return null;
               },
@@ -67,7 +68,7 @@ class _ConsultaCepFragmentState extends State<ConsultaCepFragment> {
       _loading = true;
     });
     try {
-      _cep = await _service.findCepAsObject(_cepFormater.getUnmaskedText());
+      _cep = await _service.findCepAsObject(_cepFormatter.getUnmaskedText());
     } catch (e) {
       debugPrint(e.toString());
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(

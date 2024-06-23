@@ -1,7 +1,9 @@
+
+import '../pages/form_cidade.dart';
+import '../services/cidade_service.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:usando_api/model/cidade.dart';
-import 'package:usando_api/services/cidade_service.dart';
-import 'package:usando_api/widgets/form_cidade.dart';
+import '../model/cidade.dart';
 
 class CidadesFragment extends StatefulWidget {
   static const title = 'Cidades';
@@ -58,8 +60,8 @@ class CidadesFragmentState extends State<CidadesFragment> {
           }
           return RefreshIndicator(
             key: _refreshIndicatorKey,
-            onRefresh: _findCidades,
             child: content,
+            onRefresh: _findCidades,
           );
         },
       ),
@@ -67,8 +69,8 @@ class CidadesFragmentState extends State<CidadesFragment> {
   }
 
   Future<void> _findCidades() async {
-    await Future.delayed(const Duration(seconds: 2));
-    final cidades = await _service.findCidade();
+    await Future.delayed(Duration(seconds: 2));
+    final cidades = await _service.findCidades();
     setState(() {
       _cidades.clear();
       if (cidades.isNotEmpty) {
@@ -91,7 +93,8 @@ class CidadesFragmentState extends State<CidadesFragment> {
                 onTap: () {
                   Navigator.pop(context);
                   abrirForm(cidade: cidade);
-                }),
+                }
+            ),
             const Divider(),
             ListTile(
                 leading: const Icon(
@@ -102,7 +105,8 @@ class CidadesFragmentState extends State<CidadesFragment> {
                 onTap: () {
                   Navigator.pop(context);
                   _excluir(cidade);
-                }),
+                }
+            ),
           ],
         ),
         actions: [
@@ -116,11 +120,9 @@ class CidadesFragmentState extends State<CidadesFragment> {
   }
 
   void abrirForm({Cidade? cidade}) {
-    Navigator.of(context)
-        .push(MaterialPageRoute(
+    Navigator.of(context).push(MaterialPageRoute(
       builder: (_) => FormCidadePage(cidade: cidade),
-    ))
-        .then((changed) {
+    )).then((changed) {
       if (changed == true) {
         _refreshIndicatorKey.currentState?.show();
       }
@@ -148,11 +150,11 @@ class CidadesFragmentState extends State<CidadesFragment> {
                 }).catchError((error, stackTrace) {
                   print(stackTrace ?? error);
                   ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-                    content: Text(
-                        'Não foi possível remover a cidade. Tente novamente.'),
+                    content: Text('Não foi possível remover a cidade. Tente novamente.'),
                   ));
                 });
-              }),
+              }
+          ),
         ],
       ),
     );

@@ -21,6 +21,7 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: Theme.of(context).colorScheme.primaryContainer,
         title: const Text('Usando GPS'),
       ),
       body: _criarBody(),
@@ -67,14 +68,16 @@ class _HomePageState extends State<HomePage> {
       return;
     }
     Position? position = await Geolocator.getLastKnownPosition();
-    setState(() {
-      if (position == null) {
-        _linhas.add('Nenhuma localização encontrada!');
-      } else {
-        _linhas.add('Latitude: ${position.latitude}  |'
-            '  Longitude: ${position.longitude}');
-      }
-    });
+    setState(
+      () {
+        if (position == null) {
+          _linhas.add('Nenhuma localização encontrada!');
+        } else {
+          _linhas.add('Latitude: ${position.latitude}  |'
+              '  Longitude: ${position.longitude}');
+        }
+      },
+    );
   }
 
   void _obterLocalizacaoAtual() async {
@@ -89,55 +92,62 @@ class _HomePageState extends State<HomePage> {
     }
 
     Position position = await Geolocator.getCurrentPosition();
-    setState(() {
-      if (position == null) {
-        _linhas.add('Nenhuma localização encontrada!');
-      } else {
-        _linhas.add('Latitude: ${position.latitude}  |'
-            '  Longitude: ${position.longitude}');
-      }
-    });
-  }
-
-  void _monitorarLocalizacao() {
-    const LocationSettings locationSettings =
-        LocationSettings(accuracy: LocationAccuracy.high, distanceFilter: 5);
-
-    _subscription = Geolocator.getPositionStream(
-      locationSettings: locationSettings,
-    ).listen((Position position) {
-      setState(() {
+    setState(
+      () {
         if (position == null) {
           _linhas.add('Nenhuma localização encontrada!');
         } else {
           _linhas.add('Latitude: ${position.latitude}  |'
               '  Longitude: ${position.longitude}');
         }
-      });
-      if (_ultimaLocalizacaoObtida != null) {
-        final distancia = Geolocator.distanceBetween(
-            _ultimaLocalizacaoObtida!.latitude,
-            _ultimaLocalizacaoObtida!.longitude,
-            position.latitude,
-            position.longitude);
+      },
+    );
+  }
 
-        _distanciaPercorrida += distancia;
+  void _monitorarLocalizacao() {
+    const LocationSettings locationSettings =
+        LocationSettings(accuracy: LocationAccuracy.high, distanceFilter: 100);
 
-        _linhas.add(
-            'Distância percorrida: ${_distanciaPercorrida.toInt()} Metros');
-      }
+    _subscription =
+        Geolocator.getPositionStream(locationSettings: locationSettings).listen(
+      (Position position) {
+        setState(
+          () {
+            if (position == null) {
+              _linhas.add('Nenhuma localização encontrada!');
+            } else {
+              _linhas.add('Latitude: ${position.latitude}  |'
+                  '  Longitude: ${position.longitude}');
+            }
+          },
+        );
+        if (_ultimaLocalizacaoObtida != null) {
+          final distancia = Geolocator.distanceBetween(
+              _ultimaLocalizacaoObtida!.latitude,
+              _ultimaLocalizacaoObtida!.longitude,
+              position.latitude,
+              position.longitude);
 
-      _ultimaLocalizacaoObtida = position;
-    });
+          _distanciaPercorrida += distancia;
+
+          _linhas.add(
+              'Distância percorrida: ${_distanciaPercorrida.toInt()} Metros');
+        }
+
+        _ultimaLocalizacaoObtida = position;
+      },
+    );
   }
 
   void _pararMonitoramento() {
     _subscription?.cancel();
-    setState(() {
-      _subscription = null;
-      _distanciaPercorrida = 0;
-      _ultimaLocalizacaoObtida = null;
-    });
+    setState(
+      () {
+        _subscription = null;
+        _distanciaPercorrida = 0;
+        _ultimaLocalizacaoObtida = null;
+      },
+    );
   }
 
   Future<bool> _permissoesPermitidas() async {
@@ -173,28 +183,33 @@ class _HomePageState extends State<HomePage> {
   }
 
   void _mostrarMensagem(String mensagem) {
-    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-      content: Text(mensagem),
-    ));
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text(mensagem),
+      ),
+    );
   }
 
   Future<void> _mostrarDialogMensagem(String mensagem) async {
     await showDialog(
-        context: context,
-        builder: (_) => AlertDialog(
-              title: const Text('Atenção'),
-              content: Text(mensagem),
-              actions: [
-                TextButton(
-                    onPressed: () => Navigator.of(context).pop(),
-                    child: const Text('OK'))
-              ],
-            ));
+      context: context,
+      builder: (_) => AlertDialog(
+        title: const Text('Atenção'),
+        content: Text(mensagem),
+        actions: [
+          TextButton(
+              onPressed: () => Navigator.of(context).pop(),
+              child: const Text('OK'))
+        ],
+      ),
+    );
   }
 
   void _limparLog() {
-    setState(() {
-      _linhas.clear();
-    });
+    setState(
+      () {
+        _linhas.clear();
+      },
+    );
   }
 }
